@@ -14,7 +14,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500 flex items-center justify-center">
+<body class="min-h-screen bg-linear-to-br from-blue-500 via-purple-600 to-pink-500 flex items-center justify-center">
 
     <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-10">
         <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
@@ -66,7 +66,7 @@
 
             <button
                 type="submit"
-                class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold hover:opacity-90 transition"
+                class="w-full py-3 rounded-xl bg-linear-to-r from-blue-500 to-purple-600 text-white font-semibold hover:opacity-90 transition"
             >
                 Register
             </button>

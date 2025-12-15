@@ -11,14 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-     Schema::create('shares', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('post_id')->constrained()->onDelete('cascade');
-        $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-        $table->string('platform');
-        $table->timestamps();
-    });
+        Schema::create('shares', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('post_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('platform')->nullable();
+            $table->string('share_url')->nullable();
+            $table->timestamps();
 
+            // Indexes
+            $table->index(['post_id', 'created_at']);
+            $table->index(['user_id', 'created_at']);
+            $table->index('platform');
+        });
     }
 
     /**
