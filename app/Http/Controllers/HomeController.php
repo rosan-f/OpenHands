@@ -3,29 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
 use App\Models\Category;
-
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-
-
     public function index()
     {
-        $posts = Post::with(['user', 'category'])
+        $posts = Post::query()
+            ->with(['user', 'category'])
+            ->withCount(['likes', 'comments'])
+            ->withExists([
+                'likes as isLikedByUser' => function ($q) {
+                    $q->where('user_id', Auth::id() ?? 0);
+                }
+            ])
             ->latest()
             ->paginate(10);
 
-        $popularCategories = Category::withCount('posts')
-        ->whereHas('posts') 
-        ->orderByDesc('posts_count')
-        ->limit(5)
-        ->get();
-
-
-        return view('home', compact('posts', 'popularCategories'));
+        return view('home', compact('posts'));
     }
-
-
 }

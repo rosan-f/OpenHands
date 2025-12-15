@@ -1,6 +1,7 @@
 <div class="space-y-4 sticky top-20">
 
     <!-- Profile Card -->
+    @auth
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
         <div class="flex items-center space-x-3">
             <img
@@ -37,6 +38,7 @@
             </div>
         </div>
     </div>
+    @endauth
 
     <!-- Quick Menu -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">

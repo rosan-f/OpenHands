@@ -63,11 +63,12 @@ class PostController extends Controller
         $post->load([
             'user',
             'category',
-            'comments' => function ($query) {
-                $query->whereNull('parent_id')
-                    ->with(['user', 'replies.user'])
-                    ->latest();
+            'comments' => function ($q) {
+                 $q->whereNull('parent_id')
+                ->with(['user', 'replies.user']);
+
             }
+
         ]);
 
         $post->loadCount(['likes', 'comments'])
@@ -109,7 +110,14 @@ class PostController extends Controller
             ->limit(3)
             ->get();
 
-        return view('posts.show', compact('post', 'hasLiked', 'isOwner', 'topDonors', 'relatedPosts'));
+        $popularCategories = Category::query()
+            ->withCount('posts')
+            ->whereHas('posts')
+            ->orderByDesc('posts_count')
+            ->limit(5)
+            ->get();
+
+        return view('posts.show', compact('post', 'hasLiked', 'isOwner', 'topDonors', 'relatedPosts', 'popularCategories'));
     }
 
     /**

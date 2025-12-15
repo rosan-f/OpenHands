@@ -40,46 +40,64 @@
                     </svg>
                 </button>
 
-                <!-- Notifications -->
-                <button
-                    class="relative p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                    </svg>
-                    <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-                </button>
-
-                <!-- Profile Dropdown -->
-                <div class="relative">
-                    <button id="profile-toggle"
-                        class="flex items-center space-x-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full p-1 pr-3 transition-colors">
-                        <img src="https://ui-avatars.com/api/?name=User&background=06b6d4&color=fff" alt="Profile"
-                            class="w-8 h-8 rounded-full">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd" />
+                @auth
+                    <!-- Notifications -->
+                    <button
+                        class="relative p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                         </svg>
+                        <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
                     </button>
 
-                    <div id="profile-menu"
-                        class="hidden absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden z-50">
+                    <!-- Profile Dropdown -->
+                    <div class="relative">
+                        <button id="profile-toggle"
+                            class="flex items-center space-x-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full p-1 pr-3 transition-colors">
+                            <img src="https://ui-avatars.com/api/?name=User&background=06b6d4&color=fff" alt="Profile"
+                                class="w-8 h-8 rounded-full">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
 
-                        <a href="/profile"
-                            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            Profil
+                        <div id="profile-menu"
+                            class="hidden absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden z-50">
+
+                            <a href="/profile"
+                                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                Profil
+                            </a>
+
+                            <form method="POST" action="/logout">
+                                @csrf
+                                <button type="submit"
+                                    class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @endauth
+
+
+                @guest
+                    <!-- Login & Register -->
+                    <div class="flex items-center space-x-2">
+                        <a href="{{ route('login') }}"
+                            class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 transition">
+                            Login
                         </a>
 
-                        <form method="POST" action="/logout">
-                            @csrf
-                            <button type="submit"
-                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                Logout
-                            </button>
-                        </form>
+                        <a href="{{ route('register') }}"
+                            class="px-4 py-2 text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-700 rounded-full transition">
+                            Register
+                        </a>
                     </div>
-                </div>
+                @endguest
             </div>
         </div>
 
@@ -99,37 +117,37 @@
 </nav>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // === Theme Toggle ===
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        const html = document.documentElement;
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            html.classList.add('dark');
+    document.addEventListener('DOMContentLoaded', function() {
+        // === Theme Toggle ===
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            const html = document.documentElement;
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                html.classList.add('dark');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                html.classList.toggle('dark');
+                localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            });
         }
 
-        themeToggle.addEventListener('click', () => {
-            html.classList.toggle('dark');
-            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-        });
-    }
+        // === Profile Dropdown ===
+        const profileToggle = document.getElementById('profile-toggle');
+        const profileMenu = document.getElementById('profile-menu');
 
-    // === Profile Dropdown ===
-    const profileToggle = document.getElementById('profile-toggle');
-    const profileMenu = document.getElementById('profile-menu');
+        if (profileToggle && profileMenu) {
+            profileToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileMenu.classList.toggle('hidden');
+            });
 
-    if (profileToggle && profileMenu) {
-        profileToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            profileMenu.classList.toggle('hidden');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!profileMenu.contains(e.target) && !profileToggle.contains(e.target)) {
-                profileMenu.classList.add('hidden');
-            }
-        });
-    }
-});
+            document.addEventListener('click', (e) => {
+                if (!profileMenu.contains(e.target) && !profileToggle.contains(e.target)) {
+                    profileMenu.classList.add('hidden');
+                }
+            });
+        }
+    });
 </script>
