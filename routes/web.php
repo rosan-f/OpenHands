@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ShareController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DonationController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -46,5 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
     // donation
-    Route::get('/donations', [PostController::class, 'donations'])->name('donations.create');
+    Route::get('/posts/{post}/donations/create', [DonationController::class, 'create'])
+     ->name('donations.create');
+    Route::post('/posts/{post}/donations', [DonationController::class, 'store'])
+     ->name('donations.store');
 });

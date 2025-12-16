@@ -11,18 +11,15 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
-    /**
-     * Show the form for creating a new post.
-     */
+
     public function create()
     {
         $categories = Category::orderBy('name')->get();
         return view('posts.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created post in storage.
-     */
+
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -38,7 +35,7 @@ class PostController extends Controller
         $validated['user_id'] = Auth::id();
         $validated['current_amount'] = 0;
 
-        // Handle multiple images upload
+
         $imagePaths = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
@@ -47,7 +44,6 @@ class PostController extends Controller
             }
         }
         $validated['images'] = $imagePaths;
-
         $post = Post::create($validated);
 
         return redirect()
@@ -55,9 +51,7 @@ class PostController extends Controller
             ->with('success', 'Kampanye berhasil dibuat!');
     }
 
-    /**
-     * Display the specified post.
-     */
+  
     public function show(Post $post)
     {
         $post->load([
@@ -120,22 +114,19 @@ class PostController extends Controller
         return view('posts.show', compact('post', 'hasLiked', 'isOwner', 'topDonors', 'relatedPosts', 'popularCategories'));
     }
 
-    /**
-     * Show the form for editing the specified post.
-     */
+
     public function edit(Post $post)
     {
         if ($post->user_id !== Auth::id()) {
             abort(403, 'Unauthorized action.');
         }
 
+
         $categories = Category::orderBy('name')->get();
         return view('posts.edit', compact('post', 'categories'));
     }
 
-    /**
-     * Update the specified post in storage.
-     */
+
     public function update(Request $request, Post $post)
     {
         if ($post->user_id !== Auth::id()) {
@@ -153,11 +144,11 @@ class PostController extends Controller
             'remove_images' => 'nullable|array',
         ]);
 
-        // Handle image removal
+
         if ($request->has('remove_images') && $post->images) {
             $remainingImages = array_diff($post->images, $request->remove_images);
 
-            // Delete removed images from storage
+
             foreach ($request->remove_images as $imageToRemove) {
                 Storage::disk('public')->delete($imageToRemove);
             }
@@ -167,7 +158,7 @@ class PostController extends Controller
             $validated['images'] = $post->images ?? [];
         }
 
-        // Handle new images upload
+
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $path = $image->store('posts', 'public');
@@ -182,16 +173,13 @@ class PostController extends Controller
             ->with('success', 'Kampanye berhasil diperbarui!');
     }
 
-    /**
-     * Remove the specified post from storage.
-     */
+
     public function destroy(Post $post)
     {
         if ($post->user_id !== Auth::id()) {
             abort(403, 'Unauthorized action.');
         }
 
-        // Delete all images
         if ($post->images) {
             foreach ($post->images as $image) {
                 Storage::disk('public')->delete($image);
