@@ -14,12 +14,9 @@
         @endif
     </title>
 
-
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
-
-
 
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -64,58 +61,108 @@
         * {
             transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
         }
+
+        /* Hide scrollbar for panels */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 
-<body class="font-sans antialiased bg-gray-50 dark:bg-gray-900">
+<body class="font-sans antialiased bg-white dark:bg-gray-900">
 
     @yield('content')
 
     <!-- Mobile Bottom Navigation -->
-    <nav
-        class="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-50">
-        <div class="flex items-center justify-around py-2">
-            <a href="/" class="flex flex-col items-center py-2 px-3 text-cyan-600 dark:text-cyan-400">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                        d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-                </svg>
-                <span class="text-xs mt-1 font-medium">Beranda</span>
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 z-50">
+        <div class="flex items-center justify-around h-16 px-2">
+            <!-- Home -->
+            <a href="/"
+               class="flex flex-col items-center justify-center flex-1 h-full {{ request()->is('/') || request()->is('/home') ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400' }}">
+                <i class="fa-{{ request()->is('/') || request()->is('/home') ? 'solid' : 'regular' }} fa-house text-2xl"></i>
             </a>
 
-            <a href="#" class="flex flex-col items-center py-2 px-3 text-gray-500 dark:text-gray-400">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                <span class="text-xs mt-1">Cari</span>
+            <!-- Search -->
+            <button id="mobile-search-toggle"
+                    class="flex flex-col items-center justify-center flex-1 h-full text-gray-500 dark:text-gray-400">
+                <i class="fa-regular fa-magnifying-glass text-2xl"></i>
+            </button>
+
+            <!-- Create (Center) -->
+            <a href="{{ route('posts.create') }}"
+               class="flex flex-col items-center justify-center flex-1 h-full text-gray-500 dark:text-gray-400">
+                <i class="fa-regular fa-square-plus text-2xl"></i>
             </a>
 
-            <a href="#" class="flex flex-col items-center py-2 px-3 -mt-6">
-                <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 p-3 rounded-full shadow-lg">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                </div>
-            </a>
+            <!-- Notifications -->
+            <button id="mobile-notification-toggle"
+                    class="flex flex-col items-center justify-center flex-1 h-full text-gray-500 dark:text-gray-400 relative">
+                <i class="fa-regular fa-heart text-2xl"></i>
+                <span class="absolute top-2 right-1/4 w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+            </button>
 
-            <a href="#" class="flex flex-col items-center py-2 px-3 text-gray-500 dark:text-gray-400">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                </svg>
-                <span class="text-xs mt-1">Notif</span>
+            <!-- Profile -->
+            @auth
+            <a href="/profile"
+               class="flex flex-col items-center justify-center flex-1 h-full">
+                <img src="{{ auth()->user()->avatar
+                        ? asset('storage/' . auth()->user()->avatar)
+                        : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=06b6d4&color=fff'
+                    }}"
+                     alt="Profile"
+                     class="w-7 h-7 rounded-full border-2 {{ request()->is('profile') ? 'border-gray-900 dark:border-white' : 'border-transparent' }}">
             </a>
-
-            <a href="#" class="flex flex-col items-center py-2 px-3 text-gray-500 dark:text-gray-400">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                <span class="text-xs mt-1">Profil</span>
+            @else
+            <a href="{{ route('login') }}"
+               class="flex flex-col items-center justify-center flex-1 h-full text-gray-500 dark:text-gray-400">
+                <i class="fa-regular fa-circle-user text-2xl"></i>
             </a>
+            @endauth
         </div>
     </nav>
+
+    <!-- Mobile Search Panel -->
+    <div id="mobile-search-panel" class="lg:hidden hidden fixed inset-0 bg-white dark:bg-gray-900 z-50">
+        <div class="flex flex-col h-full">
+            <div class="flex items-center p-4 border-b border-gray-200 dark:border-gray-800">
+                <button id="mobile-search-close" class="mr-3 text-gray-900 dark:text-white">
+                    <i class="fa-solid fa-arrow-left text-xl"></i>
+                </button>
+                <div class="flex-1 relative">
+                    <input type="text"
+                           placeholder="Cari..."
+                           class="w-full px-4 py-2 pl-10 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg border-0 focus:ring-2 focus:ring-cyan-500">
+                    <i class="fa-solid fa-magnifying-glass text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4">
+                <div class="text-center text-gray-500 dark:text-gray-400 py-8">
+                    <p class="text-sm">Cari kampanye atau pengguna</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Notification Panel -->
+    <div id="mobile-notification-panel" class="lg:hidden hidden fixed inset-0 bg-white dark:bg-gray-900 z-50">
+        <div class="flex flex-col h-full">
+            <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white">Notifikasi</h2>
+                <button id="mobile-notification-close" class="text-gray-900 dark:text-white">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto">
+                <div class="text-center text-gray-500 dark:text-gray-400 py-8 px-6">
+                    <p class="text-sm">Belum ada notifikasi</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @stack('scripts')
 
@@ -126,6 +173,34 @@
                 document.documentElement.classList.add('dark');
             }
         })();
+
+        // Mobile Search Panel
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileSearchToggle = document.getElementById('mobile-search-toggle');
+            const mobileSearchPanel = document.getElementById('mobile-search-panel');
+            const mobileSearchClose = document.getElementById('mobile-search-close');
+
+            mobileSearchToggle?.addEventListener('click', () => {
+                mobileSearchPanel?.classList.remove('hidden');
+            });
+
+            mobileSearchClose?.addEventListener('click', () => {
+                mobileSearchPanel?.classList.add('hidden');
+            });
+
+            // Mobile Notification Panel
+            const mobileNotificationToggle = document.getElementById('mobile-notification-toggle');
+            const mobileNotificationPanel = document.getElementById('mobile-notification-panel');
+            const mobileNotificationClose = document.getElementById('mobile-notification-close');
+
+            mobileNotificationToggle?.addEventListener('click', () => {
+                mobileNotificationPanel?.classList.remove('hidden');
+            });
+
+            mobileNotificationClose?.addEventListener('click', () => {
+                mobileNotificationPanel?.classList.add('hidden');
+            });
+        });
     </script>
 
 </body>

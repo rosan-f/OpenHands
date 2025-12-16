@@ -1,87 +1,219 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>OpenHands — Login</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Login - OpenHands</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
 
-    <!-- Vite (Tailwind) -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-screen bg-linear-to-br from-blue-500 via-purple-600 to-pink-500 font-sans antialiased flex items-center justify-center">
+<body class="min-h-screen bg-gray-900 font-sans antialiased">
 
-    <div class="w-full max-w-5xl bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
+    <div class="min-h-screen flex flex-col lg:flex-row">
 
-        <!-- WELCOME -->
-        <div class="hidden md:flex flex-col justify-center p-12 text-white">
-            <h1 class="text-4xl font-bold mb-4">
-                OpenHands
-            </h1>
-            <p class="text-lg opacity-90">
-                Open your hands,<br>
-                share hope,<br>
-                change lives.
-            </p>
+        <!-- Left Side - Brand & Info -->
+        <div
+            class="hidden lg:flex lg:w-1/2 bg-linear-to-br from-cyan-500 via-cyan-600 to-blue-600 p-12 text-white flex-col justify-between relative overflow-hidden">
 
-            <div class="mt-10 space-y-2 text-sm opacity-80">
-                <p>🤝 Community Donation</p>
-                <p>💜 Transparent & Simple</p>
-                <p>🌍 Built for Demo & Impact</p>
+            <!-- Background Pattern -->
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2">
+                </div>
+                <div class="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-1/2 translate-y-1/2">
+                </div>
+            </div>
+
+            <div class="relative z-10">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 mb-12">
+                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
+                        <i class="fas fa-hands-helping text-2xl text-cyan-600"></i>
+                    </div>
+                    <span class="text-3xl font-bold">OpenHands</span>
+                </div>
+
+                <!-- Hero Content -->
+                <div class="space-y-6">
+                    <h1 class="text-5xl font-bold leading-tight">
+                        Berbagi Kebaikan,<br>
+                        Wujudkan Harapan
+                    </h1>
+                    <p class="text-xl opacity-90 leading-relaxed">
+                        Platform donasi sosial yang transparan dan terpercaya untuk membantu sesama yang membutuhkan.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Side - Login Form -->
+        <div class="flex-1 flex items-center justify-center p-6 lg:p-12">
+            <div class="w-full max-w-md">
+
+                <!-- Mobile Logo -->
+                <div class="lg:hidden flex items-center justify-center space-x-3 mb-8">
+                    <div class="w-10 h-10 bg-cyan-500 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-hands-helping text-xl text-white"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-gray-900 dark:text-white">OpenHands</span>
+                </div>
+
+                <!-- Form Card -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-8">
+
+                    <!-- Header -->
+                    <div class="mb-8">
+                        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                            Selamat Datang!
+                        </h2>
+                        <p class="text-gray-600 dark:text-gray-400">
+                            Login untuk melanjutkan ke OpenHands
+                        </p>
+                    </div>
+
+                    <!-- Error Messages -->
+                    @if ($errors->any())
+                        <div
+                            class="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                            <div class="flex items-start">
+                             
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-red-800 dark:text-red-200">
+                                        Terjadi kesalahan:
+                                    </p>
+                                    <ul class="mt-1 text-sm text-red-700 dark:text-red-300 list-disc list-inside">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Form -->
+                    <form method="POST" action="{{ route('login') }}" class="space-y-6">
+                        @csrf
+
+                        <!-- Email -->
+                        <div>
+                            <label for="email"
+                                class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                               Email
+                            </label>
+                            <input type="email" id="email" name="email" value="{{ old('email') }}" required
+                                autofocus
+                                class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 dark:text-white transition-all"
+                                >
+                        </div>
+
+                        <!-- Password -->
+                        <div>
+                            <label for="password"
+                                class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                Password
+                            </label>
+                            <div class="relative">
+                                <input type="password" id="password" name="password" required
+                                    class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 dark:text-white transition-all"
+                                    >
+                                <button type="button" onclick="togglePassword()"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                                    <i class="fas fa-eye" id="toggleIcon"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Remember & Forgot -->
+                        <div class="flex items-center justify-between">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="remember"
+                                    class="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 dark:focus:ring-cyan-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">Ingat saya</span>
+                            </label>
+                            <a href="#"
+                                class="text-sm text-cyan-600 hover:text-cyan-700 dark:text-cyan-400 font-medium">
+                                Lupa password?
+                            </a>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit"
+                            class="w-full py-3 px-4 bg-linear-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Masuk</span>
+                        </button>
+                    </form>
+
+                    <!-- Divider -->
+                    <div class="relative my-6">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                                Atau
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Register Link -->
+                    <div class="text-center">
+                        <p class="text-gray-600 dark:text-gray-400">
+                            Belum punya akun?
+                            <a href="{{ route('register') }}"
+                                class="text-cyan-600 hover:text-cyan-700 dark:text-cyan-400 font-semibold hover:underline">
+                                Daftar Sekarang
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <p class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                    © 2024 OpenHands. All rights reserved.
+                </p>
             </div>
         </div>
-
-        <!-- LOGIN -->
-        <div class="bg-white p-10">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">
-                Welcome Back 👋
-            </h2>
-
-            <form method="POST" action="/login" class="space-y-5">
-                @csrf
-
-                <div>
-                    <label class="text-sm text-gray-600">Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        required
-                        class="w-full mt-1 px-4 py-3 rounded-xl border focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                    >
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        required
-                        class="w-full mt-1 px-4 py-3 rounded-xl border focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                    >
-                </div>
-
-                <button
-                    type="submit"
-                    class="w-full py-3 rounded-xl bg-linear-to-r from-blue-500 to-purple-600 text-white font-semibold hover:opacity-90 transition"
-                >
-                    Login
-                </button>
-            </form>
-
-            <p class="text-sm text-gray-500 mt-6 text-center">
-                Don’t have an account?
-                <a href="{{ route('register') }}" class="text-purple-600 font-semibold hover:underline">
-                    Register
-                </a>
-            </p>
-        </div>
-
     </div>
 
+
+
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
 </body>
+
 </html>
