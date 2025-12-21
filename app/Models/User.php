@@ -25,7 +25,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    // relasi
+ 
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);

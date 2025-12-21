@@ -6,27 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $fillable = [
+
+        protected $fillable = [
         'user_id',
         'category_id',
         'title',
         'description',
+        'image',
         'target_amount',
         'collected_amount',
-        'images',
+        'status',
         'deadline',
-        'status'
     ];
 
     protected $casts = [
-    'target_amount' => 'decimal:2',
-    'current_amount' => 'decimal:2',
-    'deadline' => 'datetime',
-    'images' => 'array',
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
-];
+        'target_amount' => 'decimal:2',
+        'collected_amount' => 'decimal:2',
+        'deadline' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 
     public function category() {
         return $this->belongsTo(Category::class);
@@ -52,8 +51,13 @@ class Post extends Model
         return $this->hasMany(Share::class);
     }
 
-    public function proof()
-    {
-        return $this->hasOne(Proof::class);
+     public function savedPosts() {
+        return $this->hasMany(SavedPost::class);
     }
+
+
+    public function isSavedBy($userId){
+        return $this->savedPosts()->where('user_id', $userId)->exists();
+    }
+
 }

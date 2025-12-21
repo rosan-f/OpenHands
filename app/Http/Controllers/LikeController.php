@@ -24,19 +24,22 @@ class LikeController extends Controller
             ->first();
 
         if ($like) {
-            // Unlike
             $like->delete();
             $liked = false;
+
         } else {
-            // Like
+
             Like::create([
                 'post_id' => $post->id,
                 'user_id' => Auth::id(),
             ]);
             $liked = true;
+
+            if ($post->user_id !== auth()->id()) {
+                NotificationHelper::createLikeNotification($like);
+    }
         }
 
-        // Get updated count
         $likesCount = $post->likes()->count();
 
         if (request()->wantsJson()) {

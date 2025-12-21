@@ -32,7 +32,13 @@ class ViewServiceProvider extends ServiceProvider
                 ];
             });
 
-            $view->with($sidebarData);
+
+            $unreadNotifications = auth()->check()
+                ? auth()->user()->unread_notifications_count
+                 : 0;
+
+
+            $view->with($sidebarData, 'unreadNotifications', $unreadNotifications);
         });
     }
 }

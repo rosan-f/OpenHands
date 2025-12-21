@@ -18,32 +18,25 @@ class PostController extends Controller
         return view('posts.create', compact('categories'));
     }
 
-
-
     public function store(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string|min:50',
+            'description' => 'required|string|min:20',
             'category_id' => 'required|exists:categories,id',
             'target_amount' => 'required|numeric|min:100000',
             'deadline' => 'nullable|date|after:today',
-            'images.*' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
             'status' => 'required|in:draft,active',
         ]);
 
         $validated['user_id'] = Auth::id();
-        $validated['current_amount'] = 0;
+        $validated['collected_amount'] = 0;
 
-
-        $imagePaths = [];
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('posts', 'public');
-                $imagePaths[] = $path;
-            }
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('posts', 'public');
         }
-        $validated['images'] = $imagePaths;
+
         $post = Post::create($validated);
 
         return redirect()
@@ -51,127 +44,35 @@ class PostController extends Controller
             ->with('success', 'Kampanye berhasil dibuat!');
     }
 
-  
     public function show(Post $post)
     {
         $post->load([
             'user',
             'category',
-            'comments' => function ($q) {
-                 $q->whereNull('parent_id')
-                ->with(['user', 'replies.user']);
-
-            }
-
+            'comments.user'
         ]);
 
         $post->loadCount(['likes', 'comments'])
              ->loadSum(['donations as current_amount' => function ($q) {
                  $q->where('payment_status', 'success');
              }], 'amount')
+
              ->loadCount(['donations as donors_count' => function ($q) {
                  $q->where('payment_status', 'success');
              }]);
 
-        // Check if user has liked
         $hasLiked = false;
         if (Auth::check()) {
             $hasLiked = $post->likes()->where('user_id', Auth::id())->exists();
         }
 
-        // Check if user is owner
+
         $isOwner = Auth::check() && $post->user_id === Auth::id();
 
-        // Get top 10 donors
-        $topDonors = DB::table('donations')
-            ->select('user_id', DB::raw('SUM(amount) as total_donated'), DB::raw('COUNT(*) as donation_count'))
-            ->where('post_id', $post->id)
-            ->where('payment_status', 'success')
-            ->groupBy('user_id')
-            ->orderByDesc('total_donated')
-            ->limit(10)
-            ->get()
-            ->map(function ($donor) {
-                $donor->user = \App\Models\User::find($donor->user_id);
-                return $donor;
-            });
 
-        // Get related posts
-        $relatedPosts = Post::where('category_id', $post->category_id)
-            ->where('id', '!=', $post->id)
-            ->where('status', 'active')
-            ->withCount('likes')
-            ->limit(3)
-            ->get();
-
-        $popularCategories = Category::query()
-            ->withCount('posts')
-            ->whereHas('posts')
-            ->orderByDesc('posts_count')
-            ->limit(5)
-            ->get();
-
-        return view('posts.show', compact('post', 'hasLiked', 'isOwner', 'topDonors', 'relatedPosts', 'popularCategories'));
+        return view('posts.show', compact('post', 'hasLiked', 'isOwner' ));
     }
 
-
-    public function edit(Post $post)
-    {
-        if ($post->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
-        }
-
-
-        $categories = Category::orderBy('name')->get();
-        return view('posts.edit', compact('post', 'categories'));
-    }
-
-
-    public function update(Request $request, Post $post)
-    {
-        if ($post->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|min:50',
-            'category_id' => 'required|exists:categories,id',
-            'target_amount' => 'required|numeric|min:100000',
-            'deadline' => 'nullable|date|after:today',
-            'images.*' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
-            'status' => 'required|in:draft,active,completed',
-            'remove_images' => 'nullable|array',
-        ]);
-
-
-        if ($request->has('remove_images') && $post->images) {
-            $remainingImages = array_diff($post->images, $request->remove_images);
-
-
-            foreach ($request->remove_images as $imageToRemove) {
-                Storage::disk('public')->delete($imageToRemove);
-            }
-
-            $validated['images'] = array_values($remainingImages);
-        } else {
-            $validated['images'] = $post->images ?? [];
-        }
-
-
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('posts', 'public');
-                $validated['images'][] = $path;
-            }
-        }
-
-        $post->update($validated);
-
-        return redirect()
-            ->route('posts.show', $post)
-            ->with('success', 'Kampanye berhasil diperbarui!');
-    }
 
 
     public function destroy(Post $post)
@@ -180,10 +81,9 @@ class PostController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        if ($post->images) {
-            foreach ($post->images as $image) {
-                Storage::disk('public')->delete($image);
-            }
+
+        if ($post->image) {
+            Storage::disk('public')->delete($post->image);
         }
 
         $post->delete();

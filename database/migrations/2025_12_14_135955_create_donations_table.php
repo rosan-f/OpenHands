@@ -17,9 +17,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->decimal('amount', 15, 2);
             $table->string('payment_method')->nullable();
-            $table->enum('payment_status', ['pending', 'success', 'failed', 'cancelled'])->default('pending')->index();
+            $table->enum('payment_status', ['pending', 'success', 'failed', 'cancelled']);
             $table->text('message')->nullable();
-            $table->boolean('is_anonymous')->default(false);
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();
 

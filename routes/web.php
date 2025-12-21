@@ -10,9 +10,16 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ShareController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SearchController;
 
 
+// home
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// search
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 
 Route::middleware('guest')->group(function () {
@@ -31,7 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
     Route::get('/post', [PostController::class, 'create'])->name('posts.create');
     Route::post('/post', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
@@ -46,9 +52,28 @@ Route::middleware('auth')->group(function () {
     Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
+    // saved-post
+    Route::get('/saved-posts', [SavedPostController::class, 'index'])->name('saved-posts.index');
+    Route::post('/posts/{post}/save', [SavedPostController::class, 'toggle'])->name('posts.save');
+    Route::delete('/saved-posts/{savedPost}', [SavedPostController::class, 'destroy'])->name('saved-posts.destroy');
+
     // donation
     Route::get('/posts/{post}/donations/create', [DonationController::class, 'create'])
      ->name('donations.create');
     Route::post('/posts/{post}/donations', [DonationController::class, 'store'])
      ->name('donations.store');
+
+    Route::get('donations/history', [DonationController::class, 'history'])->name('donations.history');
+
+
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Notifications
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
+    Route::get('/notifications/unread-count', [NotificationController::class, 'getUnreadCount'])->name('notifications.unreadCount');
 });
