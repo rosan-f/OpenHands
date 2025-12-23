@@ -10,21 +10,8 @@
     /* Font Family */
     --font-sans: 'Inter', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-    /* Primary Colors - Cyan */
-    --color-cyan-50: #ecfeff;
-    --color-cyan-100: #cffafe;
-    --color-cyan-200: #a5f3fc;
-    --color-cyan-300: #67e8f9;
-    --color-cyan-400: #22d3ee;
-    --color-cyan-500: #06b6d4;
-    --color-cyan-600: #0891b2;
-    --color-cyan-700: #0e7490;
-    --color-cyan-800: #155e75;
-    --color-cyan-900: #164e63;
-    --color-cyan-950: #083344;
 
-    /* Gray Extended */
-    --color-gray-750: #2d3748;
+
 
     /* Animations */
     --animate-fade-in: fade-in 0.5s ease-in-out;

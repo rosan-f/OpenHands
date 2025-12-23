@@ -22,49 +22,14 @@
 
     <div class="min-h-screen flex flex-col lg:flex-row">
 
-        <!-- Left Side - Brand & Info -->
-        <div
-            class="hidden lg:flex lg:w-1/2 bg-linear-to-br from-cyan-500 via-cyan-600 to-blue-600 p-12 text-white flex-col justify-between relative overflow-hidden">
-
-            <!-- Background Pattern -->
-            <div class="absolute inset-0 opacity-10">
-                <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2">
-                </div>
-                <div class="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-1/2 translate-y-1/2">
-                </div>
-            </div>
-
-            <div class="relative z-10">
-                <!-- Logo -->
-                <div class="flex items-center space-x-3 mb-12">
-                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-                        <i class="fas fa-hands-helping text-2xl text-cyan-600"></i>
-                    </div>
-                    <span class="text-3xl font-bold">OpenHands</span>
-                </div>
-
-                <!-- Hero Content -->
-                <div class="space-y-6">
-                    <h1 class="text-5xl font-bold leading-tight">
-                        Berbagi Kebaikan,<br>
-                        Wujudkan Harapan
-                    </h1>
-                    <p class="text-xl opacity-90 leading-relaxed">
-                        Platform donasi sosial yang transparan dan terpercaya untuk membantu sesama yang membutuhkan.
-                    </p>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Right Side - Login Form -->
+        <!-- Login Form -->
         <div class="flex-1 flex items-center justify-center p-6 lg:p-12">
             <div class="w-full max-w-md">
 
-                <!-- Mobile Logo -->
-                <div class="lg:hidden flex items-center justify-center space-x-3 mb-8">
-                    <div class="w-10 h-10 bg-cyan-500 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-hands-helping text-xl text-white"></i>
+
+                <div class="flex items-center justify-center space-x-3 mb-8">
+                    <div class="w-12 h-12  flex items-center justify-center">
+                        <img src="{{asset('images/logo.svg')}}" alt="">
                     </div>
                     <span class="text-2xl font-bold text-gray-900 dark:text-white">OpenHands</span>
                 </div>
@@ -78,9 +43,7 @@
                         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                             Selamat Datang!
                         </h2>
-                        <p class="text-gray-600 dark:text-gray-400">
-                            Login untuk melanjutkan ke OpenHands
-                        </p>
+
                     </div>
 
                     <!-- Error Messages -->
@@ -88,7 +51,7 @@
                         <div
                             class="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
                             <div class="flex items-start">
-                             
+
                                 <div class="flex-1">
                                     <p class="text-sm font-medium text-red-800 dark:text-red-200">
                                         Terjadi kesalahan:
@@ -152,7 +115,6 @@
                         <!-- Submit Button -->
                         <button type="submit"
                             class="w-full py-3 px-4 bg-linear-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2">
-                            <i class="fas fa-sign-in-alt"></i>
                             <span>Masuk</span>
                         </button>
                     </form>

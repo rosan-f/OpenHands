@@ -10,9 +10,13 @@
         @hasSection('title')
             @yield('title') - {{ config('app.name', 'OpenHands') }}
         @else
-            {{ config('app.name', 'OpenHands') }} - Platform Donasi Sosial
+            {{ config('app.name', 'OpenHands') }}
         @endif
     </title>
+
+    {{-- favicon --}}
+    <link rel="shortcut icon" href="{{ asset('images/logo.svg')}}" type="image/x-icon">
+
 
     {{-- font --}}
     <link rel="preconnect" href="https://fonts.bunny.net">

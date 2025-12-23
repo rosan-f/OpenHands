@@ -23,7 +23,7 @@
     <div class="min-h-screen flex items-center justify-center p-6 lg:p-12">
         <div class="w-full max-w-2xl">
 
-       >
+            >
 
             <!-- Form Card -->
             <div
@@ -64,12 +64,11 @@
                     <!-- Name -->
                     <div>
                         <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                           Nama Lengkap
+                            Nama Lengkap
                         </label>
                         <input type="text" id="name" name="name" value="{{ old('name') }}" required
                             autofocus
-                            class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 dark:text-white transition-all"
-                            >
+                            class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 dark:text-white transition-all">
                     </div>
 
                     <!-- Email -->
@@ -78,8 +77,7 @@
                             Email
                         </label>
                         <input type="email" id="email" name="email" value="{{ old('email') }}" required
-                            class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 dark:text-white transition-all"
-                           >
+                            class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 dark:text-white transition-all">
                     </div>
 
                     <!-- Password -->
@@ -89,8 +87,7 @@
                         </label>
                         <div class="relative">
                             <input type="password" id="password" name="password" required
-                                class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 dark:text-white transition-all"
-                               >
+                                class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 dark:text-white transition-all">
                             <button type="button" onclick="togglePassword('password', 'toggleIcon1')"
                                 class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
                                 <i class="fas fa-eye" id="toggleIcon1"></i>
@@ -105,12 +102,11 @@
                     <div>
                         <label for="password_confirmation"
                             class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                           </i>Konfirmasi Password
+                            </i>Konfirmasi Password
                         </label>
                         <div class="relative">
                             <input type="password" id="password_confirmation" name="password_confirmation" required
-                                class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 dark:text-white transition-all"
-                                >
+                                class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 dark:text-white transition-all">
                             <button type="button" onclick="togglePassword('password_confirmation', 'toggleIcon2')"
                                 class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
                                 <i class="fas fa-eye" id="toggleIcon2"></i>
@@ -118,20 +114,7 @@
                         </div>
                     </div>
 
-                    <!-- Terms -->
-                    <div class="flex items-start">
-                        <div class="flex items-center h-5">
-                            <input type="checkbox" id="terms" required
-                                class="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 dark:focus:ring-cyan-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        </div>
-                        <label for="terms" class="ml-3 text-sm text-gray-600 dark:text-gray-400">
-                            Saya setuju dengan <a href="#"
-                                class="text-cyan-600 hover:text-cyan-700 dark:text-cyan-400 font-medium hover:underline">Syarat
-                                & Ketentuan</a> dan <a href="#"
-                                class="text-cyan-600 hover:text-cyan-700 dark:text-cyan-400 font-medium hover:underline">Kebijakan
-                                Privasi</a>
-                        </label>
-                    </div>
+
 
                     <!-- Submit Button -->
                     <button type="submit"
@@ -156,7 +139,7 @@
                 <div class="text-center">
                     <a href="{{ route('login') }}"
                         class="text-cyan-600 hover:text-cyan-700 dark:text-cyan-400 font-semibold hover:underline flex items-center justify-center space-x-2">
-                        <i class="fas fa-sign-in-alt"></i>
+
                         <span>Login</span>
                     </a>
                 </div>

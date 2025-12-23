@@ -1,24 +1,18 @@
  <aside
-     class="hidden lg:flex flex-col fixed left-0 top-0 h-screen w-64 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 z-40">
+     class="hidden lg:flex flex-col fixed left-0 top-0 h-screen w-72 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 z-40">
      <div class="flex flex-col h-full">
          <!-- Logo  -->
          <div class="px-6 py-5 border-b border-gray-200 dark:border-gray-800">
              <a href="/" class="flex items-center space-x-3 group">
                  <div class="relative">
                      <div
-                         class="w-10 h-10 bg-linear-to-br from-cyan-500 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
-                         <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                             <path
-                                 d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
-                         </svg>
+                         class="w-12 h-12 flex items-center justify-center  group-hover:shadow-xl transition-shadow">
+                        <img src="{{asset('images/logo.svg')}}" alt="">
                      </div>
-                     <div
-                         class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-900">
-                     </div>
+
                  </div>
                  <div class="flex-1">
                      <h1 class="text-xl font-bold text-gray-900 dark:text-white tracking-tight">OpenHands</h1>
-                     <p class="text-xs text-gray-500 dark:text-gray-400">Platform Donasi</p>
                  </div>
              </a>
          </div>
@@ -56,7 +50,7 @@
                                  <span
                                      class="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white dark:ring-gray-900 animate-pulse"></span>
                              @endif
-                             
+
                          </div>
                          <span class="text-sm font-medium">Notifikasi</span>
                          <div class="ml-auto flex items-center space-x-2">
@@ -196,14 +190,13 @@
                      <button id="profile-toggle-btn"
                          class="w-full flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all group">
                          <div class="relative">
+
                              <img src="{{ auth()->user()->avatar
                                  ? asset('storage/' . auth()->user()->avatar)
                                  : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=06b6d4&color=fff' }}"
-                                 alt="Profile"
+
                                  class="w-10 h-10 rounded-full ring-2 ring-gray-200 dark:ring-gray-700 group-hover:ring-cyan-500 transition-all">
-                             <div
-                                 class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-gray-900">
-                             </div>
+
                          </div>
                          <div class="flex-1 min-w-0 text-left">
                              <h3 class="font-semibold text-sm text-gray-900 dark:text-white truncate">
