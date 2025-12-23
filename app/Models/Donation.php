@@ -11,15 +11,13 @@ class Donation extends Model
         'user_id',
         'amount',
         'payment_method',
-        'payment_status', 
+        'payment_status',
         'message',
-        'is_anonymous',
         'paid_at',
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
-        'is_anonymous' => 'boolean',
         'paid_at' => 'datetime',
     ];
 

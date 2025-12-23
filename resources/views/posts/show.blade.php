@@ -83,7 +83,7 @@
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="px-6 py-4 bg-gray-50 dark:bg-gray-750 border-t border-gray-200 dark:border-gray-700">
+                    <div class="px-6 py-4  dark:bg-gray-750 border-t border-gray-200 dark:border-gray-700">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-6">
                                 <!-- Like -->
@@ -133,6 +133,7 @@
                             $post->target_amount > 0
                                 ? min(($post->collected_amount / $post->target_amount) * 100, 100)
                                 : 0;
+                        $isCompleted = $post->collected_amount >= $post->target_amount;
                     @endphp
 
                     <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mb-4">
@@ -145,10 +146,18 @@
                         <span>{{ $post->donors_count }} donatur</span>
                     </div>
 
-                    <a href="{{ route('donations.create', $post) }}"
-                        class="w-full px-6 py-3 bg-linear-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-center block">
-                        Donasi Sekarang
-                    </a>
+                    @if ($isCompleted)
+                        <div
+                            class="mb-4 px-4 py-3 bg-green-100 dark:bg-green-900/20 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-400 rounded-lg text-center">
+                            Target kampanye telah tercapai
+                        </div>
+                    @else
+                        <a href="{{ route('donations.create', $post) }}"
+                            class="w-full px-6 py-3 bg-linear-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-center block">
+                            Donasi Sekarang
+                        </a>
+                    @endif
+
                 </div>
 
                 <!-- Comments -->

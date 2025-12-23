@@ -24,7 +24,6 @@ class DonationController extends Controller
             'amount' => 'required|numeric|min:10000',
             'payment_method' => 'required|string',
             'message' => 'nullable|string|max:500',
-            'is_anonymous' => 'sometimes|boolean',
         ]);
 
         if ($post->status !== 'active') {
@@ -37,13 +36,13 @@ class DonationController extends Controller
                 'amount' => $request->amount,
                 'payment_method' => $request->payment_method,
                 'message' => $request->message,
-                'is_anonymous' => $request->boolean('is_anonymous'),
                 'payment_status' => 'success',
                 'paid_at' => now(),
             ]);
 
             $post->update([
-                'collected_amount' => DB::raw('collected_amount + ' . $request->amount)
+                $post->increment('collected_amount', $request->amount)
+
             ]);
 
             return $donation;
