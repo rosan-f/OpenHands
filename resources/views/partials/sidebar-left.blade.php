@@ -34,7 +34,8 @@
                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800' }}">
                      <div
                          class="w-10 h-10 flex items-center justify-center rounded-xl {{ request()->is('/')
-                          ? 'bg-cyan-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-gray-200 dark:group-hover:bg-gray-700' }} transition-colors">
+                             ? 'bg-cyan-500 text-white'
+                             : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-gray-200 dark:group-hover:bg-gray-700' }} transition-colors">
                          <i class="fa-solid fa-house text-lg"></i>
                      </div>
                      <span class="text-sm font-medium">Beranda</span>
@@ -44,16 +45,18 @@
                  @auth
                      <a href="{{ route('notifications.index') }}"
                          class="group w-full flex items-center space-x-3 px-3 py-3 rounded-xl transition-all
-               {{ request()->routeIs('notifications.index')
-                   ? 'bg-linear-to-r from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-800/20 text-cyan-600 dark:text-cyan-400 font-semibold shadow-sm'
-                   : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800' }}">
+                         {{ request()->routeIs('notifications.index') ?
+                          'bg-linear-to-r from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-800/20 text-cyan-600 dark:text-cyan-400 font-semibold shadow-sm':
+                        'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800' }}">
                          <div
                              class="w-10 h-10 flex items-center justify-center rounded-xl {{ request()->routeIs('notifications.index') ? 'bg-cyan-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-gray-200 dark:group-hover:bg-gray-700' }} transition-colors relative">
                              <i class="fa-solid fa-bell text-lg"></i>
+
                              @if (auth()->user()->unread_notifications_count > 0)
                                  <span
                                      class="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white dark:ring-gray-900 animate-pulse"></span>
                              @endif
+                             
                          </div>
                          <span class="text-sm font-medium">Notifikasi</span>
                          <div class="ml-auto flex items-center space-x-2">
@@ -97,15 +100,16 @@
                  </div>
 
                  <!-- Tersimpan -->
-                 <a href="#"
+                 <a href="{{ route('bookmarks.index') }}"
                      class="group flex items-center space-x-3 px-3 py-3 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all
 
                            {{ request()->routeIs('posts.saved')
                                ? 'bg-linear-to-r from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-800/20 text-cyan-600 dark:text-cyan-400 font-semibold shadow-sm'
                                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800' }}">
                      <div
-                         class="w-10 h-10 flex items-center justify-center rounded-xl {{request()->routeIs('posts.saved')
-                          ? 'bg-cyan-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-gray-200 dark:group-hover:bg-gray-700' }} transition-colors">
+                         class="w-10 h-10 flex items-center justify-center rounded-xl {{ request()->routeIs('posts.saved')
+                             ? 'bg-cyan-500 text-white'
+                             : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-gray-200 dark:group-hover:bg-gray-700' }} transition-colors">
                          <i class="fa-solid fa-bookmark text-lg"></i>
                      </div>
                      <span class="text-sm font-medium">Tersimpan</span>
@@ -119,8 +123,9 @@
                                ? 'bg-linear-to-r from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-800/20 text-cyan-600 dark:text-cyan-400 font-semibold shadow-sm'
                                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800' }}">
                      <div
-                         class="w-10 h-10 flex items-center justify-center rounded-xl {{request()->routeIs('donations.history')
-                          ? 'bg-cyan-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-gray-200 dark:group-hover:bg-gray-700' }} transition-colors">
+                         class="w-10 h-10 flex items-center justify-center rounded-xl {{ request()->routeIs('donations.history')
+                             ? 'bg-cyan-500 text-white'
+                             : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-gray-200 dark:group-hover:bg-gray-700' }} transition-colors">
 
                          <i class="fa-solid fa-clock-rotate-left mr-1"></i>
 

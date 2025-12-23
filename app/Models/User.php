@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+use Illuminate\Support\Facades\Storage;
+
+
 class User extends Authenticatable
 {
     protected $fillable = [
@@ -25,7 +28,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
- 
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
@@ -54,40 +57,13 @@ class User extends Authenticatable
     // Accessors
     public function getAvatarUrlAttribute()
     {
-        if ($this->avatar) {
+        if ($this->avatar && Storage::disk('public')->exists($this->avatar)) {
             return asset('storage/' . $this->avatar);
         }
-        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=06b6d4&color=fff';
+
+        return 'https://ui-avatars.com/api/?name='. urlencode($this->name ?? 'User') . '&background=06b6d4&color=fff';
     }
 
-    public function getUsernameAttribute()
-    {
-        return strtolower(str_replace(' ', '', $this->name));
-    }
-
-    // Stats Methods
-    public function getPostsCountAttribute()
-    {
-        return $this->posts()->count();
-    }
-
-    public function getDonationsCountAttribute()
-    {
-        return $this->donations()->where('payment_status', 'success')->count();
-    }
-
-    public function getTotalDonatedAttribute()
-    {
-        return $this->donations()
-            ->where('payment_status', 'success')
-            ->sum('amount');
-    }
-
-    public function getTotalReceivedAttribute()
-    {
-        return $this->posts()
-            ->sum('collected_amount');
-    }
 
     public function getUnreadNotificationsCountAttribute()
     {

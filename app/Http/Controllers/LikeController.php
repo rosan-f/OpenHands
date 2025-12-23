@@ -8,11 +8,11 @@ use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Helpers\NotificationHelper;
+
 class LikeController extends Controller
 {
-    /**
-     * Toggle like on a post
-     */
+
     public function toggle(Post $post)
     {
         if (!Auth::check()) {

@@ -45,4 +45,5 @@ class NotificationController extends Controller
             'count' => Auth::user()->unread_notifications_count
         ]);
     }
+    
 }

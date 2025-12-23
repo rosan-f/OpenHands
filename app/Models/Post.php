@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+
 
 class Post extends Model
 {
@@ -51,13 +53,21 @@ class Post extends Model
         return $this->hasMany(Share::class);
     }
 
-     public function savedPosts() {
-        return $this->hasMany(SavedPost::class);
+   public function bookmarks() {
+        return $this->hasMany(Bookmark::class);
     }
 
 
-    public function isSavedBy($userId){
-        return $this->savedPosts()->where('user_id', $userId)->exists();
+    // accessor
+
+    public function getImageUrlAttribute()
+    {
+        if ($this->image && Storage::disk('public')->exists($this->image)) {
+            return asset('storage/' . $this->image);
+        }
+
+        return asset('images/default.jpg');
     }
+
 
 }

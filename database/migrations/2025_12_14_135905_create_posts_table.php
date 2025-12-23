@@ -13,21 +13,14 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
-                ->constrained()
-                ->cascadeOnDelete();
-            $table->foreignId('category_id')
-                ->nullable()
-                ->constrained()
-                ->nullOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
             $table->string('title');
             $table->text('description');
             $table->string('image')->nullable();
             $table->decimal('target_amount', 15, 2)->default(0);
             $table->decimal('collected_amount', 15, 2)->default(0);
-            $table->enum('status', ['draft', 'active'])
-                ->default('active')
-                ->index();
+            $table->enum('status', ['draft', 'active'])->default('active')->index();
             $table->timestamp('deadline')->nullable();
             $table->timestamps();
             $table->softDeletes();

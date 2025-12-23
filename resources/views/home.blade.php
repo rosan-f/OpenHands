@@ -20,8 +20,10 @@
             </form>
         </div>
 
+
+
         <!-- Posts Feed -->
-        <div class="divide-y divide-gray-200 dark:divide-gray-800">
+        <div class="divide-y divide-gray-200 dark:divide-gray-800" id="posts">
             @forelse($posts ?? [] as $post)
                 @include('partials.post-card', ['post' => $post])
             @empty
@@ -32,13 +34,46 @@
         <!-- Load More / Pagination -->
         @if (isset($posts) && $posts->hasMorePages())
             <div class="py-8 text-center border-t border-gray-200 dark:border-gray-800">
-                <a href="{{ $posts->nextPageUrl() }}"
-                    class="inline-flex items-center px-6 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                <button id="loadMore"
+                        data-url="{{ $posts->nextPageUrl() }}"
+                        class="inline-flex items-center px-6 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+
                     Muat Lebih Banyak
-                </a>
+
+                </button>
             </div>
         @endif
     </div>
+
+<script>
+$(function () {
+
+    $('#loadMore').on('click', function () {
+        let button = $(this);
+        let url = button.data('url');
+
+        if (!url) return;
+
+        $.get(url, function (response) {
+
+
+            let html = $(response).find('#posts').html();
+
+            $('#posts').append(html);
+
+            let nextUrl = $(response).find('#loadMore').data('url');
+            button.data('url', nextUrl);
+
+         
+            if (!nextUrl) {
+                button.remove();
+            }
+        });
+    });
+
+});
+</script>
+
 
 
 @endsection

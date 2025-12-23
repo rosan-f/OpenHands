@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Bookmark;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,6 +15,7 @@ class HomeController extends Controller
             'q' => 'nullable|string|max:100',
         ]);
 
+
         $q = trim($request->q);
 
         $posts = Post::query()
@@ -22,8 +24,12 @@ class HomeController extends Controller
             ->withExists([
                 'likes as isLikedByUser' => function ($query) {
                     $query->where('user_id', Auth::id() ?? 0);
+                },
+                'bookmarks as isBookmarkedByUser' => function ($query) {
+                    $query->where('user_id', Auth::id() ?? 0);
                 }
             ])
+
 
             ->when($q, function ($query) use ($q) {
                 $query->where(function ($subQuery) use ($q) {

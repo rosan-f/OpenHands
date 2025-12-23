@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\PostController;
-
-
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
@@ -13,13 +12,13 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SearchController;
-
+use App\Http\Controllers\BookmarkController;
 
 // home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // search
-Route::get('/search', [SearchController::class, 'index'])->name('search');
+Route::get('/search', [HomeController::class, 'index'])->name('search');
 
 
 Route::middleware('guest')->group(function () {
@@ -52,10 +51,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
-    // saved-post
-    Route::get('/saved-posts', [SavedPostController::class, 'index'])->name('saved-posts.index');
-    Route::post('/posts/{post}/save', [SavedPostController::class, 'toggle'])->name('posts.save');
-    Route::delete('/saved-posts/{savedPost}', [SavedPostController::class, 'destroy'])->name('saved-posts.destroy');
+    // bookmark
+    Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
+    Route::post('/bookmarks/{post}', [BookmarkController::class, 'toggle'])->name('bookmarks.toggle');
+    Route::delete('/bookmarks/{bookmark}', [BookmarkController::class, 'destroy'])->name('bookmarks.destroy');
 
     // donation
     Route::get('/posts/{post}/donations/create', [DonationController::class, 'create'])

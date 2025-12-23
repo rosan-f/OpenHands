@@ -27,8 +27,11 @@
                     <div class="p-6 border-b border-gray-200 dark:border-gray-700">
                         <div class="flex items-start justify-between">
                             <div class="flex items-center space-x-3">
-                                <img src="{{ $post->user->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($post->user->name) . '&background=06b6d4&color=fff' }}"
-                                    alt="{{ $post->user->name }}" class="w-12 h-12 rounded-full ring-2 ring-cyan-500">
+
+                                <img src="{{ $post->user->avatar_url }}" class="w-12 h-12 rounded-full border-2 border-gray-200 dark:border-gray-700">
+
+
+
                                 <div>
                                     <h3 class="font-semibold text-gray-900 dark:text-white">
                                         {{ $post->user->name }}</h3>
@@ -63,7 +66,7 @@
                     <!-- Image -->
                     @if ($post->image)
                         <div class="relative">
-                            <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}"
+                            <img src="{{ $post->image_url}} " alt="{{ $post->title }}"
                                 class="w-full h-96 object-cover">
                         </div>
                     @endif
@@ -133,7 +136,7 @@
                     @endphp
 
                     <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mb-4">
-                        <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 h-2.5 rounded-full transition-all duration-500"
+                        <div class="bg-linear-to-r from-cyan-500 to-cyan-600 h-2.5 rounded-full transition-all duration-500"
                             style="width: {{ $percentage }}%"></div>
                     </div>
 
@@ -143,7 +146,7 @@
                     </div>
 
                     <a href="{{ route('donations.create', $post) }}"
-                        class="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-center block">
+                        class="w-full px-6 py-3 bg-linear-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-center block">
                         Donasi Sekarang
                     </a>
                 </div>
@@ -163,9 +166,13 @@
                         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
                             <form action="{{ route('comments.store', $post) }}" method="POST" class="flex space-x-3">
                                 @csrf
-                                <img src="{{ Auth::user()->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&background=06b6d4&color=fff' }}"
+
+                                <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) :
+                                 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&background=06b6d4&color=fff' }}"
+
                                     alt="{{ Auth::user()->name }}"
                                     class="w-10 h-10 rounded-full ring-2 ring-gray-200 dark:ring-gray-600">
+
                                 <div class="flex-1">
                                     <textarea name="content" rows="3" placeholder="Tulis komentar Anda..."
                                         class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 dark:text-white resize-none"
@@ -197,7 +204,8 @@
                         @forelse($post->comments as $comment)
                             <div class="p-6">
                                 <div class="flex space-x-3">
-                                    <img src="{{ $comment->user->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($comment->user->name) . '&background=06b6d4&color=fff' }}"
+
+                                    <img src="{{$comment->user->avatar_url }}"
                                         alt="{{ $comment->user->name }}"
                                         class="w-10 h-10 rounded-full ring-2 ring-gray-200 dark:ring-gray-600 shrink-0">
 
