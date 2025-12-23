@@ -95,15 +95,10 @@
             @forelse($posts as $post)
                 <a href="{{ route('posts.show', $post->id) }}"
                     class="group relative aspect-square overflow-hidden rounded-lg">
-                    @if ($post->images && count($post->images) > 0)
-                        <img src="{{ asset('storage/' . $post->images[0]) }}" alt="{{ $post->title }}"
+
+
+                        <img src="{{ $post->image_url }}" alt="{{ $post->title }}"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-                    @else
-                        <div
-                            class="w-full h-full bg-linear-to-br from-cyan-100 to-cyan-200 dark:from-cyan-900/20 dark:to-cyan-800/20 flex items-center justify-center">
-                            <i class="fa-solid fa-image text-4xl text-gray-400"></i>
-                        </div>
-                    @endif
 
                     <!-- Overlay -->
                     <div
@@ -117,6 +112,7 @@
                             </span>
                         </div>
                     </div>
+
                 </a>
             @empty
                 <div class="col-span-3 text-center py-12">
